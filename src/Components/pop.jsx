@@ -7,6 +7,9 @@ const Popup = ({ show, onClose }) => {
   const [countryCode, setCountryCode] = useState("+91");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);  
+  
 
 const countries = [
   { name: "AF", code: "+93", flag: "https://flagcdn.com/w20/af.png" },
@@ -139,6 +142,7 @@ const countries = [
     setError(errMsg);
     return valid;
   };
+  
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -146,9 +150,67 @@ const countries = [
     validatePhone(value);
   };
 
-  const handleSubmit = (e) => {
-    if (!validatePhone(phone)) e.preventDefault();
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const res = await fetch("https://getnos.io/zygn/php/index.php", {
+      method: "POST",
+      body: new FormData(e.target),
+    });
+
+    const text = await res.text();   // 🔴 change json → text
+
+    console.log("SERVER RESPONSE:", text);  // DEBUG LOG
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (err) {
+      console.error("JSON parse failed:", err);
+      alert("Server error: Invalid JSON response");
+      return;
+    }
+
+    if (data.status === "success") {
+      setSubmitted(true);
+    } else {
+      alert(data.message || "Submission failed");
+    }
+
+  } catch (error) {
+    console.error("FETCH ERROR:", error);
+    alert("Network error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+if (submitted) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div className="bg-white p-10 rounded-xl text-center max-w-md">
+        <h2 className="text-2xl font-bold text-green-600 mb-3">
+          Thank You 🎉
+        </h2>
+        <p className="text-gray-700">
+          Your form has been submitted successfully.  
+          Our team will contact you shortly.
+        </p>
+
+        <button
+          onClick={onClose}
+          className="mt-6 px-6 py-2 bg-[#155DFC] text-white rounded-lg"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+}
+
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
@@ -187,8 +249,7 @@ const countries = [
 
         {/* Form */}
      <form
-  action="https://getnos.io/zygn/php/index.php"
-  method="post"
+  
   className="space-y-4"
   onSubmit={handleSubmit}
 >
@@ -290,11 +351,16 @@ const countries = [
 
   {/* Submit Button */}
   <button
-    type="submit"
-    className="uppercase w-fit text-sm md:text-base mt-4 py-3 px-6 bg-gradient-to-r from-[#155DFC] to-[#155DFC] text-white font-semibold rounded-lg hover:opacity-90 transition-all duration-200 mx-auto block"
-  >
-    BOOK MY FREE DEMO
-  </button>
+  type="submit"
+  disabled={loading}
+  className={`uppercase w-fit text-sm md:text-base mt-4 py-3 px-6 
+  bg-gradient-to-r from-[#155DFC] to-[#155DFC] text-white font-semibold 
+  rounded-lg transition-all duration-200 mx-auto block
+  ${loading ? "opacity-60 cursor-not-allowed" : "hover:opacity-90"}`}
+>
+  {loading ? "Submitting..." : "BOOK MY FREE DEMO"}
+</button>
+
 </form>
       </div>
     </div>
