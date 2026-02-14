@@ -78,7 +78,7 @@ foreach ($emails as $line) {
 // ================================
 // 5. SEND EMAIL
 // ================================
-$to      = "seetharaman@getnos.io";
+$to      = "sriethiraj@getnos.io";
 $subject = "Zygn - Audit Form Submission";
 
 $message  = "Zygn Audit Form Submission\n\n";
