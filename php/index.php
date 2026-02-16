@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 <html lang='en'>
 <head>
 <meta charset='UTF-8'>
-<title>Willwork API</title>
+<title>Zygn API</title>
 </head>
 <body>
 <h2>Willwork API</h2>
@@ -42,7 +42,8 @@ $phone = $country_code . " " . $mobile;
 // 2. VALIDATE EMAIL
 // ================================
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    die("Invalid email address.");
+    echo "<script>alert('Invalid email address.'); window.history.back();</script>";
+    exit;
 }
 
 // ================================
@@ -56,7 +57,8 @@ $blocked_domains = [
 $emailDomain = strtolower(substr(strrchr($email, "@"), 1));
 
 if (in_array($emailDomain, $blocked_domains)) {
-    die("Please use your company work email only.");
+    echo "<script>alert('Please use your company work email only.'); window.history.back();</script>";
+    exit;
 }
 
 // ================================
@@ -68,7 +70,8 @@ $emails = file_exists($file) ? file($file, FILE_IGNORE_NEW_LINES) : [];
 foreach ($emails as $line) {
     $parts = explode(" | ", $line);
     if (isset($parts[0]) && strtolower($parts[0]) === strtolower($email)) {
-        die("This email has already been submitted.");
+        echo "<script>alert('This email has already been submitted.'); window.history.back();</script>";
+        exit;
     }
 }
 
@@ -98,9 +101,11 @@ mail($to, $subject, $message, $headers);
 file_put_contents($file, "$email | " . date("Y-m-d H:i:s") . "\n", FILE_APPEND);
 
 // ================================
-// 7. REDIRECT TO THANK YOU PAGE
+// 7. SHOW JS ALERT (NO REDIRECT)
 // ================================
-header("Location: https://getnos.io/zygn/thank-you/");
-exit;
+echo json_encode([
+  "status" => "success",
+  "message" => "Form submitted successfully!"
+]);
 
 ?>
