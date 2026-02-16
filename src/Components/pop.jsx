@@ -3,12 +3,13 @@ import boatcraftLogo from "../assets/form-logo.png";
 import "../components/Pop.css";
 
 const Popup = ({ show, onClose }) => {
-  const [msg, setMsg] = useState("");
+  // const [msg, setMsg] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);  
+ 
   
 
 const countries = [
@@ -114,13 +115,7 @@ const countries = [
 ];
 
 
-  useEffect(() => {
-    fetch("https://getnos.io/zygn/php/index.php")
-      .then((response) => response.json())
-      .then((data) => setMsg(data.message))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
+  
   if (!show) return null;
 
   const validatePhone = (value) => {
@@ -196,8 +191,7 @@ if (submitted) {
           Thank You 🎉
         </h2>
         <p className="text-gray-700">
-          Your form has been submitted successfully.  
-          Our team will contact you shortly.
+         Your Zygn demo is confirmed. Meeting details arrive within 24 hours.
         </p>
 
         <button
@@ -245,7 +239,7 @@ if (submitted) {
           </h2> */}
         </div>
 
-        {msg && <p className="text-center text-green-600 text-sm mb-3">{msg}</p>}
+        {/* {msg && <p className="text-center text-green-600 text-sm mb-3">{msg}</p>} */}
 
         {/* Form */}
      <form
