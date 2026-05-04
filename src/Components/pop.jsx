@@ -232,7 +232,7 @@ if (submitted) {
           <img src={boatcraftLogo} alt="boatcraft" className="w-16 sm:w-28" />
         </div>
 
-        {/* Heading */}
+        {/* Hegit checkout -b my-branchading */}
         <div className="text-center mb-6">
           {/* <h2 className="text-lg sm:text-xl font-bold text-[#155DFC] uppercase leading-snug">
             Ready to Dominate Global Trade with Verified Buyer Leads?
@@ -321,18 +321,18 @@ if (submitted) {
   </div>
 
   {/* Monthly Projects */}
-  <input
-    type="text"
-    name="monthly_projects"
-    placeholder="Monthly Projects* (e.g., 5-10, 10-15)"
-    required
-    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#155DFC]"
-  />
+ <input
+  type="text"
+  name="monthly_projects"
+  placeholder="No. of Employees* (e.g., 1–10, 10–50)"
+  required
+  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#155DFC]"
+/>
 
   {/* Project Details */}
   <textarea
     name="project_details"
-    placeholder="Project Details* (Describe your biggest operational challenge - BOQs, follow-ups, site delays, stock leaks, etc.)"
+    placeholder="Briefly describe your biggest operational challenge right now (e.g., tracking BOQs, follow-ups, site delays, or stock leaks)"
     rows="3"
     required
     className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#155DFC]"
